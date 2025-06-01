@@ -1,13 +1,13 @@
-// src/components/ParticlesBackground.tsx
 'use client';
 
 import { useCallback } from 'react';
 import Particles from 'react-tsparticles';
 import { loadFull } from 'tsparticles';
+import type { Engine } from 'tsparticles-engine';
 
 export default function ParticlesBackground() {
   // Carga completa de tsparticles (para poder usar todos los plugins)
-  const particlesInit = useCallback(async (engine: any) => {
+  const particlesInit = useCallback(async (engine: Engine) => {
     await loadFull(engine);
   }, []);
 
@@ -97,7 +97,7 @@ export default function ParticlesBackground() {
 
           // ====================
           // INTERACTIVIDAD
-          // ====================
+         // ====================
           interactivity: {
             events: {
               onHover: {

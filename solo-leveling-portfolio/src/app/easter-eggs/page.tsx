@@ -3,7 +3,6 @@
 import ParticlesBackground from '../../components/ParticlesBackground';
 import PageWrapper from '../../components/PageWrapper';
 import FnafMiniGame from '../../components/FnafMiniGame';
-import { motion } from 'framer-motion';
 
 export default function EasterEggsPage() {
   return (

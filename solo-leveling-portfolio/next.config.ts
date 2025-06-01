@@ -1,7 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  // Habilitar dominios externos para <Image /> (de FnafMiniGames.txs)
+  images: {
+    domains: ["picsum.photos"],
+  },
 };
 
 export default nextConfig;

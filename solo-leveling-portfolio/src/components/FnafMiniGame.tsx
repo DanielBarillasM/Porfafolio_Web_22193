@@ -1,9 +1,11 @@
 'use client';
 
 import { useEffect, useState, useRef } from "react";
+import Image from "next/image";
 
 export default function Fnaf8BitGameElaborate() {
   type Phase = "waiting" | "alert" | "survived" | "dead";
+
   const [phase, setPhase] = useState<Phase>("waiting");
   const [countdown, setCountdown] = useState(0);
   const [round, setRound] = useState(0);
@@ -11,6 +13,7 @@ export default function Fnaf8BitGameElaborate() {
   const [clicksRequired] = useState(2); // Siempre requerimos 2 clics
   const [animImage, setAnimImage] = useState<string>(""); // URL a mostrar
   const [imgError, setImgError] = useState(false); // Para mostrar placeholder si hay error
+
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const clickRef = useRef(0);
 
@@ -45,7 +48,7 @@ export default function Fnaf8BitGameElaborate() {
       }
 
       const id = setTimeout(() => {
-        setCountdown(c => c - 1);
+        setCountdown((c) => c - 1);
       }, 1000);
       return () => clearTimeout(id);
     }
@@ -54,21 +57,25 @@ export default function Fnaf8BitGameElaborate() {
       // Se acabó el tiempo sin cerrar correctamente
       setPhase("dead");
     }
-  }, [phase, countdown, animImage]);
+  }, [phase, countdown, animImage, clicksRequired]);
 
   // 3) Al hacer clic en “Cerrar puerta”, consumimos batería y contamos clicks
   const handleInteract = () => {
     if (phase !== "alert") return;
 
-    setBattery(b => Math.max(b - 1, 0));
+    setBattery((b) => Math.max(b - 1, 0));
     clickRef.current += 1;
 
     // Si ya dio al menos clicksRequired antes de quedarse sin batería y aún hay tiempo:
-    if (clickRef.current >= clicksRequired && countdown > 0 && battery > 0) {
+    if (
+      clickRef.current >= clicksRequired &&
+      countdown > 0 &&
+      battery > 0
+    ) {
       if (round + 1 >= 3) {
         setPhase("survived");
       } else {
-        setRound(r => r + 1);
+        setRound((r) => r + 1);
         setPhase("waiting");
       }
     }
@@ -76,10 +83,14 @@ export default function Fnaf8BitGameElaborate() {
 
   // 4) Si la batería llega a 0 antes de completar los clicks, muere
   useEffect(() => {
-    if (phase === "alert" && battery === 0 && clickRef.current < clicksRequired) {
+    if (
+      phase === "alert" &&
+      battery === 0 &&
+      clickRef.current < clicksRequired
+    ) {
       setPhase("dead");
     }
-  }, [battery, phase]);
+  }, [battery, phase, clicksRequired]);
 
   // 5) Reiniciar todo para jugar de nuevo
   const restartGame = () => {
@@ -118,15 +129,21 @@ export default function Fnaf8BitGameElaborate() {
 
             <div className="anim-container">
               {/*
-                1) Mostramos la imagen solicitada a Picsum.
-                2) Si falla (onError), marcamos imgError=true y renderizamos el placeholder local.
+                Sólo renderizamos <Image> si:
+                 1) animImage !== "" (ya se solicitó una URL),
+                 OR 2) imgError === true (fallback al placeholder).
               */}
-              <img
-                src={imgError ? "/placeholder.png" : animImage}
-                alt="Animatrónico"
-                className="anim-image"
-                onError={() => setImgError(true)}
-              />
+              {(animImage !== "" || imgError) && (
+                <Image
+                  src={imgError ? "/placeholder.png" : animImage}
+                  alt="Animatrónico"
+                  width={96}
+                  height={76}
+                  className="anim-image"
+                  onError={() => setImgError(true)}
+                  priority
+                />
+              )}
             </div>
 
             <p className="text">CIERRA LA PUERTA EN: {countdown}s</p>
@@ -267,8 +284,7 @@ export default function Fnaf8BitGameElaborate() {
           align-items: center;
         }
         .anim-image {
-          max-width: 96px;
-          max-height: 76px;
+          object-fit: cover;
           image-rendering: pixelated;
         }
 
