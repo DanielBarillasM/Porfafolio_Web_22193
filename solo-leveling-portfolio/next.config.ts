@@ -1,9 +1,12 @@
+// next.config.js
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Habilitar dominios externos para <Image /> (de FnafMiniGames.txs)
+  // Dependiendo de tu configuración previa, si ya tenías images:{…}, agrégalo aquí también.
+  basePath: "/Porfafolio_Web_22193",
+  assetPrefix: "/Porfafolio_Web_22193/",
   images: {
-    domains: ["picsum.photos"],
+    domains: ["picsum.photos"], // si ya lo tenías, mantenlo
   },
 };
 

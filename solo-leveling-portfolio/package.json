@@ -9,7 +9,8 @@
     "export": "next build && next export",
     "start": "next start",
     "lint": "next lint",
-    "deploy": "npm run export && gh-pages -d out"
+    "predeploy": "yarn build",
+    "deploy": "gh-pages -d out"
   },
   "dependencies": {
     "framer-motion": "^12.11.0",
