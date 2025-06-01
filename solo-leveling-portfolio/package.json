@@ -5,7 +5,7 @@
   "homepage": "https://DanielBarillasM.github.io/Porfafolio_Web_22193",
   "scripts": {
     "dev": "next dev",
-    "build": "next build && next export",
+    "build": "next build",
     "predeploy": "yarn build",
     "start": "next start",
     "lint": "next lint",
