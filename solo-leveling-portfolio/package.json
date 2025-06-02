@@ -9,6 +9,7 @@
   "export": "next build",
   "predeploy": "yarn export",
   "deploy": "gh-pages -d out",
+  "deploy:gh": "rm -rf .next out && yarn build && yarn deploy -- -f",
   "start": "next start",
   "lint": "next lint"
   },
